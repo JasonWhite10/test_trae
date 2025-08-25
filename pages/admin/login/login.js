@@ -36,7 +36,7 @@ Page({
     setTimeout(() => {
       // 这里应该是真实的登录API调用
       // 为了演示，我们使用固定的管理员账户
-      if (username === 'admin' && password === 'admin123') {
+      if (username === '123' && password === '123') {
         // 登录成功，存储token
         wx.setStorageSync('adminToken', 'fake_admin_token');
         wx.setStorageSync('adminInfo', { username: '管理员' });

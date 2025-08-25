@@ -6,7 +6,7 @@
 
   <view class="form-container">
     <view class="input-group">
-      <image class="input-icon" src="/assets/icons/user.png" mode="aspectFit"></image>
+      <image class="input-icon" src="/images/user.png" mode="aspectFit"></image>
       <input
         type="text"
         placeholder="请输入用户名"
@@ -18,7 +18,7 @@
     </view>
 
     <view class="input-group">
-      <image class="input-icon" src="/assets/icons/lock.png" mode="aspectFit"></image>
+      <image class="input-icon" src="/images/lock.png" mode="aspectFit"></image>
       <input
         type="password"
         placeholder="请输入密码"

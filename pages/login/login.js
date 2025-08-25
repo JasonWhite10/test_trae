@@ -142,25 +142,26 @@ Page({
       });
     }
   },
-
+ 
   /**
    * 切换调试模式
    * @description 仅用于开发环境，切换调试模式的显示状态
    */
-  toggleDebugMode: function() {
-    try {
-      this.setData({
-        isDebug: !this.data.isDebug
-      });
-    } catch (e) {
-      console.error('切换调试模式失败:', e);
-    }
-  },
+  // toggleDebugMode: function() {
+  //   try {
+  //     this.setData({
+  //       isDebug: !this.data.isDebug
+  //     });
+  //   } catch (e) {
+  //     console.error('切换调试模式失败:', e);
+  //   }
+  // },
 
   /**
    * 调试登录
    * @description 仅用于开发环境，模拟用户登录流程
    */
+  /*
   debugLogin: function() {
     try {
       wx.showLoading({ title: '调试登录中...' });
@@ -194,23 +195,24 @@ Page({
       });
     }
   },
+  */
 
   /**
    * 切换管理员登录模式  暫時沒發現有調用
    */
-  switchToAdminLogin: function() {
-    try {
-      this.setData({
-        isAdminLogin: !this.data.isAdminLogin
-      });
-    } catch (e) {
-      console.error('切换管理员登录模式失败:', e);
-      wx.showToast({
-        title: '操作失败，请重试',
-        icon: 'none'
-      });
-    }
-  },
+  // switchToAdminLogin: function() {
+  //   try {
+  //     this.setData({
+  //       isAdminLogin: !this.data.isAdminLogin
+  //     });
+  //   } catch (e) {
+  //     console.error('切换管理员登录模式失败:', e);
+  //     wx.showToast({
+  //       title: '操作失败，请重试',
+  //       icon: 'none'
+  //     });
+  //   }
+  // },
 
   /**
    * 输入用户名
