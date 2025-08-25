@@ -1,0 +1,63 @@
+<!-- pages/register/register.wxml -->
+<view class="container">
+  <!-- 顶部Logo和标题 -->
+  <view class="logo-container">
+    <view class="logo">
+      <image class="logo-img" src="/images/learning_selected.png"></image>
+    </view>
+    <view class="title">新用户注册</view>
+    <view class="subtitle">请完善个人信息</view>
+  </view>
+
+  <!-- 注册表单 -->
+  <view class="register-form">
+    <!-- 姓名输入 -->
+    <view class="form-item">
+      <view class="input-container">
+        <image class="input-icon" src="/images/exam.png"></image>
+        <input class="input-field" placeholder="请输入您的姓名" bindinput="inputName" value="{{name}}"
+               confirm-type="next"></input>
+      </view>
+    </view>
+
+    <!-- 船号输入 -->
+    <view class="form-item">
+      <view class="input-container">
+        <image class="input-icon" src="/images/exam.png"></image>
+        <input class="input-field" placeholder="请输入您的船号" bindinput="inputShipNumber" value="{{shipNumber}}"
+               confirm-type="next"></input>
+      </view>
+    </view>
+
+    <!-- 地区选择 -->
+    <view class="form-item">
+      <view class="input-container">
+        <image class="input-icon" src="/images/exam.png"></image>
+        <picker bindchange="bindRegionChange" value="{{regionIndex}}" range="{{regionList}}">
+          <view class="select-field">
+            {{regionList[regionIndex] || '请选择地区'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 身份选择 -->
+    <view class="form-item">
+      <view class="input-container">
+        <image class="input-icon" src="/images/exam.png"></image>
+        <picker bindchange="bindIdentityChange" value="{{identityIndex}}" range="{{identityList}}">
+          <view class="select-field">
+            {{identityList[identityIndex] || '请选择身份'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 错误提示 -->
+    <view wx:if="{{errorMessage}}" class="error-message">{{errorMessage}}</view>
+
+    <!-- 提交按钮 -->
+    <button class="btn-primary" bindtap="submitRegister" type="primary"
+            loading="{{isLoading}}" disabled="{{isLoading}}">提交注册</button>
+  </view>
+</view>

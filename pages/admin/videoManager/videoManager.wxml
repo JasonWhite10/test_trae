@@ -1,0 +1,53 @@
+<!-- pages/admin/videoManager/videoManager.wxml -->
+<view class="container">
+  <!-- 顶部搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-group">
+      <image class="search-icon" src="/assets/icons/search.png" mode="aspectFit"></image>
+      <input
+        type="text"
+        placeholder="搜索视频..."
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        class="search-input"
+      />
+    </view>
+    <button bindtap="onSearch" class="search-btn">搜索</button>
+  </view>
+
+  <!-- 添加按钮 -->
+  <button bindtap="addNewVideo" class="add-btn" type="primary">+ 添加视频</button>
+
+  <!-- 视频列表 -->
+  <view class="video-list">
+    <block wx:if="{{videoList.length > 0}}">
+      <view class="video-item" wx:for="{{videoList}}" wx:key="id">
+        <view class="video-cover" bindtap="toEditVideo" data-id="{{item.id}}">
+          <image src="{{item.cover}}" mode="aspectFill"></image>
+          <text class="video-duration">{{item.duration}}</text>
+        </view>
+        <view class="video-info">
+          <text class="video-title" bindtap="toEditVideo" data-id="{{item.id}}">{{item.title}}</text>
+          <text class="video-view-count">观看次数: {{item.viewCount}}</text>
+        </view>
+        <view class="video-actions">
+          <button bindtap="toEditVideo" data-id="{{item.id}}" class="edit-btn">编辑</button>
+          <button bindtap="deleteVideo" data-id="{{item.id}}" class="delete-btn">删除</button>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty-tip" wx:if="{{!loading}}">暂无视频数据</view>
+    </block>
+  </view>
+
+  <!-- 加载提示 -->
+  <view class="loading-tip" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 分页提示 -->
+  <view class="pagination-tip" wx:if="{{videoList.length >= totalCount && totalCount > 0}}">
+    <text>已经到底了</text>
+  </view>
+</view>

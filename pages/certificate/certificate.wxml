@@ -1,0 +1,26 @@
+<!-- pages/certificate/certificate.wxml -->
+<view class="container" style="padding: 30rpx; box-sizing: border-box;">
+  <view class="page-title" style="font-size: 36rpx; font-weight: bold; text-align: center; margin-bottom: 30rpx;">个人奖状</view>
+
+  <view class="certificate-container" style="background-color: white; border-radius: 20rpx; padding: 30rpx; box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);">
+    <view class="certificate-header" style="text-align: center; margin-bottom: 30rpx;">
+      <view class="certificate-title" style="font-size: 40rpx; font-weight: bold; color: #f7ba1e;">荣誉证书</view>
+      <view class="certificate-subtitle" style="font-size: 28rpx; color: var(--text-secondary); margin-top: 10rpx;">恭喜您在考试中获得满分！</view>
+    </view>
+
+    <view class="certificate-body" style="text-align: center; margin: 40rpx 0;">
+      <view class="certificate-user" style="font-size: 36rpx; font-weight: bold; margin-bottom: 20rpx;">{{certificate.username}}</view>
+      <view class="certificate-exam" style="font-size: 32rpx; margin-bottom: 10rpx;">在 {{certificate.examTitle}} 中表现优异</view>
+      <view class="certificate-score" style="font-size: 48rpx; font-weight: bold; color: #f7ba1e; margin: 20rpx 0;">100分</view>
+      <view class="certificate-date" style="font-size: 28rpx; color: var(--text-secondary);">颁发日期: {{certificate.date}}</view>
+    </view>
+
+    <view class="certificate-footer" style="text-align: center; margin-top: 30rpx;">
+      <button class="btn-primary" bindtap="saveCertificate" style="background-color: #1677ff; color: white; border-radius: 8rpx;">保存证书到相册</button>
+    </view>
+  </view>
+
+  <view class="back-btn" style="margin-top: 30rpx; text-align: center;">
+    <button class="btn-default" bindtap="navigateBack" style="border: 1rpx solid #eee; background-color: white;">返回</button>
+  </view>
+</view>

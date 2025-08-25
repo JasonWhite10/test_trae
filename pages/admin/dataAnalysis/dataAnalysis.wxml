@@ -1,0 +1,66 @@
+<!-- pages/admin/dataAnalysis/dataAnalysis.wxml -->
+<view class="container">
+  <!-- 顶部筛选 -->
+  <view class="filter-container">
+    <text class="filter-label">时间范围:</text>
+    <picker bindchange="onDateRangeChange" value="{{dateRange}}" range="['day', 'week', 'month', 'year']" range-key="label">
+      <view class="picker">
+        {{dateRange === 'day' ? '今日' : dateRange === 'week' ? '本周' : dateRange === 'month' ? '本月' : '本年'}}
+      </view>
+    </picker>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-container">
+    <view class="stat-card">
+      <text class="stat-value">{{statistics.totalUsers}}</text>
+      <text class="stat-label">总用户数</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value">{{statistics.activeUsers}}</text>
+      <text class="stat-label">活跃用户</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value">{{statistics.avgVideoTime}}分钟</text>
+      <text class="stat-label">平均观看时长</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value">{{statistics.passRate}}%</text>
+      <text class="stat-label">考试通过率</text>
+    </view>
+  </view>
+
+  <!-- 市总参与人数区域 -->
+  <view class="chart-container" wx:if="{{!loading}}">
+    <view class="chart-card">
+      <text class="chart-title">各市总参与人数</text>
+      <view class="chart-placeholder">
+        <text>各市总参与人数图表</text>
+        <!-- 这里应该是图表组件 -->
+      </view>
+    </view>
+
+    <!-- 市身份类型分布区域 -->
+    <view class="chart-card">
+      <text class="chart-title">各市身份类型分布</text>
+      <view class="chart-placeholder">
+        <text>各市身份类型分布图表</text>
+        <!-- 这里应该是图表组件 -->
+      </view>
+    </view>
+
+    <!-- 市总考试次数区域 -->
+    <view class="chart-card">
+      <text class="chart-title">各市总考试次数</text>
+      <view class="chart-placeholder">
+        <text>各市总考试次数图表</text>
+        <!-- 这里应该是图表组件 -->
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载提示 -->
+  <view class="loading-tip" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

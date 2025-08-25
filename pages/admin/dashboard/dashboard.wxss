@@ -1,0 +1,234 @@
+/* pages/admin/dashboard/dashboard.wxss */
+.container {
+  padding: 30rpx;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* 顶部导航 */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0rpx;
+  padding: 5rpx 0;
+  position: relative;
+}
+
+.title {
+  font-size: 50rpx;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: center;
+  width: 100%;
+}
+
+.logout-btn {
+  font-size: 28rpx;
+  color: var(--primary-color);
+  background: none;
+  padding: 0;
+  min-width: auto;
+  position: absolute;
+  right: 30rpx;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  opacity: 0.8;
+}
+
+/* 用户信息 */
+.user-info {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-info:hover {
+  transform: translateY(-2rpx);
+  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.05);
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  background-image: none;
+  margin-right: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar::after {
+  content: 'A';
+  color: white;
+  font-size: 48rpx;
+  font-weight: bold;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.welcome-text {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+.username {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* 统计卡片 */
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+  gap: 20rpx;
+}
+
+.stat-card {
+  width: calc(40% - 10rpx);
+  background-color: #fff;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2rpx);
+  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.05);
+}
+
+.stat-value {
+  font-size: 52rpx;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 10rpx;
+  display: block;
+  letter-spacing: -0.5rpx;
+}
+
+.stat-label {
+  font-size: 26rpx;
+  color: var(--text-tertiary);
+}
+
+/* 功能菜单 */
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  margin-top: 50rpx;
+  align-items: center;
+}
+
+.menu-item {
+  width: 32%;
+  max-width: 500rpx;
+  background-color: #fff;
+  padding: 40rpx 0;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-3rpx);
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.06);
+}
+
+.menu-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 24rpx;
+  background-color: rgba(22, 119, 255, 0.1);
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-icon::after {
+  content: '▶';
+  color: var(--primary-color);
+  font-size: 40rpx;
+}
+
+.question-icon::after {
+  content: '?';
+  color: var(--primary-color);
+  font-size: 48rpx;
+  font-weight: bold;
+}
+
+.analysis-icon::after {
+  content: '📊';
+  font-size: 44rpx;
+}
+
+.menu-text {
+  font-size: 28rpx;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.menu-item {
+  width: 100%;
+  background-color: #fff;
+  padding: 30rpx 0;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-bottom: 20rpx;
+}
+
+.video-icon {
+  background-color: #fde68a;
+}
+
+.question-icon {
+  background-color: #bfdbfe;
+}
+
+.analysis-icon {
+  background-color: #a7f3d0;
+}
+
+.menu-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.menu-item:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}

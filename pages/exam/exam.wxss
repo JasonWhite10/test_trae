@@ -1,0 +1,58 @@
+/* pages/exam/exam.wxss */
+.exam-progress {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  padding: 20rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.progress-text {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+.option-item {
+  padding: 20rpx;
+  border: 1rpx solid var(--border-color);
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.option-item:active {
+  background-color: rgba(22, 119, 255, 0.1);
+}
+
+.option-selected {
+  border-color: var(--primary-color);
+  background-color: rgba(22, 119, 255, 0.1);
+}
+
+.option-letter {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20rpx;
+  font-size: 24rpx;
+}
+
+.option-text {
+  font-size: 28rpx;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 20rpx;
+}
+
+.navigation-buttons button {
+  flex: 1;
+}

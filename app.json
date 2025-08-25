@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/register/register",
+    "pages/learning/learning",
+    "pages/videoList/videoList",
+    "pages/videoPlayer/videoPlayer",
+    "pages/userInformation/userInformation",
+    "pages/exam/exam",
+    "pages/examResult/examResult",
+    "pages/admin/login/login",
+    "pages/admin/dashboard/dashboard",
+    "pages/admin/videoManager/videoManager",
+    "pages/admin/questionManager/questionManager",
+    "pages/admin/dataAnalysis/dataAnalysis"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1677ff",
+    "navigationBarTitleText": "船员学习平台",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1677ff",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/learning/learning",
+        "text": "学习中心",
+        "iconPath": "images/learning.png",
+        "selectedIconPath": "images/learning_selected.png"
+      },
+      {
+        "pagePath": "pages/userInformation/userInformation",
+        "text": "我的",
+        "iconPath": "images/exam.png",
+        "selectedIconPath": "images/exam_selected.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.writePhotosAlbum": {
+      "desc": "保存奖状到相册"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

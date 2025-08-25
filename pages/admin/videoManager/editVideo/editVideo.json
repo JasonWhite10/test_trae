@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "{{isEditing ? '编辑视频' : '添加视频'}}",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {}
+}

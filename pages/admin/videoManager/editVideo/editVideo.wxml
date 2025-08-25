@@ -1,0 +1,44 @@
+<!-- pages/admin/videoManager/editVideo/editVideo.wxml -->
+<view class="container">
+  <view class="form-group">
+    <text class="label">视频标题</text>
+    <input
+      type="text"
+      placeholder="请输入视频标题"
+      value="{{title}}"
+      data-field="title"
+      bindinput="onInputChange"
+      class="input"
+    />
+  </view>
+
+  <view class="form-group">
+    <text class="label">视频封面</text>
+    <view class="cover-preview" bindtap="chooseCoverImage">
+      <image wx:if="{{coverUrl}}" src="{{coverUrl}}" mode="aspectFill"></image>
+      <view wx:else class="placeholder">
+        <text>点击选择封面图片</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-group">
+    <text class="label">视频文件</text>
+    <view class="video-preview" bindtap="chooseVideoFile">
+      <view class="placeholder">
+        <text wx:if="{{!videoUrl}}">点击选择视频文件</text>
+        <text wx:else>已选择视频文件 (时长: {{duration}})</text>
+      </view>
+    </view>
+  </view>
+
+  <button
+    type="primary"
+    loading="{{loading}}"
+    disabled="{{loading}}"
+    bindtap="saveVideo"
+    class="save-btn"
+  >
+    {{isEditing ? '更新视频' : '保存视频'}}
+  </button>
+</view>

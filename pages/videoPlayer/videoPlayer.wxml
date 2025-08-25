@@ -1,0 +1,46 @@
+<!-- pages/videoPlayer/videoPlayer.wxml -->
+<view class="container" style="padding: 0;">
+  <view class="video-player-container">
+    <video
+      id="myVideo"
+      class="video-player"
+      src="{{videoInfo.src}}"
+      bindtimeupdate="onTimeUpdate"
+      bindended="onEnded"
+      binderror="onError"
+      show-center-play-btn="false"
+      show-fullscreen-btn="true"
+      enable-progress-gesture="true"
+      controls="false"
+    ></video>
+
+    <!-- 视频错误提示 -->
+    <view wx:if="{{videoError}}" class="error-message" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); padding: 20rpx; border-radius: 8rpx; color: white;">
+      {{errorMsg}}
+    </view>
+
+    <!-- 自定义控制栏 -->
+    <view class="player-controls" wx:if="{{!videoError}}">
+      <view class="play-btn" bindtap="togglePlay" style="width: 60rpx; height: 60rpx; display: flex; justify-content: center; align-items: center;">
+        <text style="font-size: 48rpx; color: white;">{{isPlaying ? '⏸' : '▶'}}</text>
+      </view>
+      <view class="play-progress">
+        <view class="progress-value" style="width: {{progress}}%"></view>
+        <view class="progress-point" style="left: {{progress}}%"></view>
+      </view>
+      <view class="time-display">
+        {{formatTime(currentTime)}} / {{formatTime(duration)}}
+      </view>
+    </view>
+  </view>
+
+  <view class="video-info" style="padding: 20rpx; background-color: white;">
+    <view class="video-title" style="font-size: 32rpx; font-weight: bold; margin-bottom: 10rpx;">{{videoInfo.title}}</view>
+    <view class="video-progress" style="font-size: 28rpx; color: var(--text-secondary); margin-bottom: 10rpx;">
+      观看进度: {{progress}}%
+    </view>
+    <view class="progress-bar" style="height: 8rpx; background-color: var(--border-color); border-radius: 4rpx; overflow: hidden;">
+      <view class="progress-value" style="width: {{progress}}%"></view>
+    </view>
+  </view>
+</view>

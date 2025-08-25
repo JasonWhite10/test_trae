@@ -1,0 +1,75 @@
+<!-- pages/admin/questionManager/editQuestion/editQuestion.wxml -->
+<view class="container">
+  <view class="form-group">
+    <text class="label">题目内容</text>
+    <input
+      type="text"
+      placeholder="请输入题目内容"
+      value="{{title}}"
+      data-field="title"
+      bindinput="onInputChange"
+      class="input"
+    />
+  </view>
+
+  <view class="form-group">
+    <text class="label">题目类型</text>
+    <radio-group bindchange="onTypeChange" class="radio-group">
+      <label class="radio-label">
+        <radio value="single" checked="{{type === 'single'}}"/> 单选题
+      </label>
+      <label class="radio-label">
+        <radio value="multiple" checked="{{type === 'multiple'}}"/> 多选题
+      </label>
+    </radio-group>
+  </view>
+
+  <view class="form-group">
+    <text class="label">选项设置</text>
+    <view class="options-container">
+      <view wx:for="{{options}}" wx:key="id" class="option-item">
+        <view class="option-content">
+          <view class="option-radio" bindtap="toggleOptionCorrect" data-index="{{index}}">
+            <view class="radio-circle {{item.isCorrect ? 'correct' : ''}}">
+              <view wx:if="{{item.isCorrect}}" class="radio-dot"></view>
+            </view>
+          </view>
+          <input
+            type="text"
+            placeholder="请输入选项内容"
+            value="{{item.content}}"
+            data-index="{{index}}"
+            bindinput="onOptionChange"
+            class="option-input"
+          />
+        </view>
+        <view class="option-actions">
+          <button bindtap="deleteOption" data-index="{{index}}" class="delete-btn" size="mini">删除</button>
+        </view>
+      </view>
+    </view>
+    <button bindtap="addOption" class="add-option-btn" size="mini">+ 添加选项</button>
+  </view>
+
+  <view class="form-group">
+    <text class="label">答案解析</text>
+    <textarea
+      placeholder="请输入答案解析"
+      value="{{explanation}}"
+      data-field="explanation"
+      bindinput="onInputChange"
+      class="textarea"
+      auto-height
+    ></textarea>
+  </view>
+
+  <button
+    type="primary"
+    loading="{{loading}}"
+    disabled="{{loading}}"
+    bindtap="saveQuestion"
+    class="save-btn"
+  >
+    {{isEditing ? '更新题目' : '保存题目'}}
+  </button>
+</view>

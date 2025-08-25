@@ -1,0 +1,47 @@
+/* pages/videoPlayer/videoPlayer.wxss */
+.video-player-container {
+  height: 450rpx;
+}
+
+.video-player {
+  height: 100%;
+}
+
+.player-controls {
+  height: 80rpx;
+}
+
+.play-btn {
+  cursor: pointer;
+}
+
+.play-progress {
+  flex: 1;
+  height: 8rpx;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4rpx;
+  margin: 0 20rpx;
+  position: relative;
+}
+
+.progress-value {
+  height: 100%;
+  background-color: var(--primary-color);
+}
+
+.progress-point {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.time-display {
+  font-size: 24rpx;
+  width: 120rpx;
+  text-align: center;
+  color: white;
+}

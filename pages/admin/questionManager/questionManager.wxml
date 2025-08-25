@@ -1,0 +1,62 @@
+<!-- pages/admin/questionManager/questionManager.wxml -->
+<view class="container">
+  <!-- 顶部搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-group">
+      <image class="search-icon" src="/assets/icons/search.png" mode="aspectFit"></image>
+      <input
+        type="text"
+        placeholder="搜索题目..."
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        class="search-input"
+      />
+    </view>
+    <button bindtap="onSearch" class="search-btn">搜索</button>
+  </view>
+
+  <!-- 类型筛选 -->
+  <view class="filter-container">
+    <text class="filter-label">题目类型:</text>
+    <picker bindchange="onTypeChange" value="{{questionType}}" range="['all', 'single', 'multiple']" range-key="label">
+      <view class="picker">
+        {{questionType === 'all' ? '全部' : questionType === 'single' ? '单选题' : '多选题'}}
+      </view>
+    </picker>
+  </view>
+
+  <!-- 添加按钮 -->
+  <button bindtap="addNewQuestion" class="add-btn" type="primary">+ 添加题目</button>
+
+  <!-- 题目列表 -->
+  <view class="question-list">
+    <block wx:if="{{questionList.length > 0}}">
+      <view class="question-item" wx:for="{{questionList}}" wx:key="id">
+        <view class="question-info">
+          <text class="question-title" bindtap="toEditQuestion" data-id="{{item.id}}">{{item.title}}</text>
+          <view class="question-meta">
+            <text class="question-type">{{item.type === 'single' ? '单选题' : '多选题'}}</text>
+            <text class="question-answer-count">答题次数: {{item.answerCount}}</text>
+          </view>
+        </view>
+        <view class="question-actions">
+          <button bindtap="toEditQuestion" data-id="{{item.id}}" class="edit-btn">编辑</button>
+          <button bindtap="deleteQuestion" data-id="{{item.id}}" class="delete-btn">删除</button>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty-tip" wx:if="{{!loading}}">暂无题目数据</view>
+    </block>
+  </view>
+
+  <!-- 加载提示 -->
+  <view class="loading-tip" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 分页提示 -->
+  <view class="pagination-tip" wx:if="{{questionList.length >= totalCount && totalCount > 0}}">
+    <text>已经到底了</text>
+  </view>
+</view>

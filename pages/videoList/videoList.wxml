@@ -1,0 +1,31 @@
+<!-- pages/videoList/videoList.wxml -->
+<view class="container">
+  <view class="title">视频学习</view>
+
+  <view class="video-list">
+    <view class="video-item" wx:for="{{currentPageData}}" wx:key="id" bindtap="playVideo" data-id="{{item.id}}">
+      <image class="video-thumbnail" src="{{item.thumbnail}}" mode="aspectFill"></image>
+      <view class="video-info">
+        <view class="video-title">{{item.title}}</view>
+        <view class="video-progress">
+          <text>已观看: {{item.progress}}%</text>
+          <view class="progress-bar">
+            <view class="progress-value" style="width: {{item.progress}}%"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="pagination">
+    <view class="pagination-btn {{currentPage <= 1 ? 'pagination-disabled' : ''}}" bindtap="goToPrevPage" wx:if="{{totalPages > 1}}">
+      <text>←</text>
+    </view>
+    <view class="pagination-text" wx:if="{{totalPages > 1}}">
+      {{currentPage}}/{{totalPages}}
+    </view>
+    <view class="pagination-btn {{currentPage >= totalPages ? 'pagination-disabled' : ''}}" bindtap="goToNextPage" wx:if="{{totalPages > 1}}">
+      <text>→</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,34 @@
+<!-- pages/login/login.wxml -->
+<view class="container">
+  <!-- 关闭按钮 -->
+  <view class="close-btn" bindtap="closeLogin">
+    <text>×</text>
+  </view>
+
+  <!-- 顶部Logo -->
+  <view class="logo-container">
+    <image class="logo-img" src="/images/learning_selected.png"></image>
+  </view>
+
+  <!-- 手机号显示区域 -->
+  <view class="phone-display">
+    <text class="phone-number">{{phoneNumber || '133****9953'}}</text>
+  </view>
+
+  <!-- 登录按钮 -->
+  <button class="btn-primary" bindtap="phoneLogin"
+          hover-class="btn-primary-hover"
+          loading="{{isLoading}}">
+    本机号码一键登录
+  </button>
+
+  <!-- 切换登录方式 -->
+  <view class="switch-login" bindtap="adminLogin">
+    <text>管理员登录</text>
+  </view>
+
+  <!-- 调试按钮 - 仅开发环境可见 -->
+  <button wx:if="{{isDebug}}" class="btn-debug" bindtap="toggleDebugMode" size="mini">
+    {{isDebug ? '关闭调试' : '开启调试'}}
+  </button>
+</view>

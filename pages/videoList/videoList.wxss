@@ -1,0 +1,13 @@
+/* pages/videoList/videoList.wxss */
+.pagination-text {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+.video-item {
+  transition: transform 0.2s;
+}
+
+.video-item:active {
+  transform: scale(0.98);
+}

@@ -1,0 +1,132 @@
+/* pages/admin/questionManager/editQuestion/editQuestion.wxss */
+.container {
+  padding: 30rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.form-group {
+  margin-bottom: 40rpx;
+  background-color: #fff;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.input {
+  width: 100%;
+  height: 80rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  background-color: #fff;
+}
+
+/* 题目类型选择 */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  margin-right: 40rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 选项设置 */
+.options-container {
+  margin-bottom: 20rpx;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding: 10rpx;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+}
+
+.option-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.option-radio {
+  margin-right: 20rpx;
+}
+
+.radio-circle {
+  width: 36rpx;
+  height: 36rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-circle.correct {
+  border-color: #1aad19;
+  background-color: rgba(26, 173, 25, 0.1);
+}
+
+.radio-dot {
+  width: 18rpx;
+  height: 18rpx;
+  background-color: #1aad19;
+  border-radius: 50%;
+}
+
+.option-input {
+  flex: 1;
+  height: 70rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  background-color: #fff;
+}
+
+.option-actions {
+  margin-left: 20rpx;
+}
+
+.delete-btn {
+  background-color: #f5f5f5;
+  color: #e64340;
+}
+
+.add-option-btn {
+  margin-top: 10rpx;
+  background-color: #f5f5f5;
+  color: #1aad19;
+}
+
+/* 答案解析 */
+.textarea {
+  width: 100%;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  background-color: #fff;
+}
+
+/* 保存按钮 */
+.save-btn {
+  width: 100%;
+  margin-top: 40rpx;
+  border-radius: 8rpx;
+}
