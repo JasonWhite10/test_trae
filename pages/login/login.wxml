@@ -27,6 +27,11 @@
     <text>管理员登录</text>
   </view>
 
+  <!-- 临时用户登录方式测试 -->
+  <view class="switch-login" bindtap="useruserLogin">
+    <text>用户登录</text>
+  </view>
+
   <!-- 调试按钮 - 仅开发环境可见 -->
   <button wx:if="{{isDebug}}" class="btn-debug" bindtap="toggleDebugMode" size="mini">
     {{isDebug ? '关闭调试' : '开启调试'}}

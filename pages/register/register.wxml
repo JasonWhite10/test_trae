@@ -1,10 +1,7 @@
 <!-- pages/register/register.wxml -->
 <view class="container">
-  <!-- 顶部Logo和标题 -->
+  <!-- 顶部标题 -->
   <view class="logo-container">
-    <view class="logo">
-      <image class="logo-img" src="/images/learning_selected.png"></image>
-    </view>
     <view class="title">新用户注册</view>
     <view class="subtitle">请完善个人信息</view>
   </view>
@@ -13,29 +10,45 @@
   <view class="register-form">
     <!-- 姓名输入 -->
     <view class="form-item">
+      <view class="form-label">姓名</view>
       <view class="input-container">
-        <image class="input-icon" src="/images/exam.png"></image>
-        <input class="input-field" placeholder="请输入您的姓名" bindinput="inputName" value="{{name}}"
-               confirm-type="next"></input>
+        <input class="input-field" placeholder="请输入您的真实姓名" bindinput="inputName" value="{{name}}" confirm-type="next"></input>
+      </view>
+    </view>
+
+    <!-- 性别选择 -->
+    <view class="form-item">
+      <view class="form-label">性别</view>
+      <view class="input-container">
+        <picker bindchange="bindGenderChange" value="{{genderIndex}}" range="{{genderRange}}">
+          <view class="select-field">
+            {{genderRange[genderIndex] || '请选择性别'}}
+          </view>
+        </picker>
       </view>
     </view>
 
     <!-- 船号输入 -->
     <view class="form-item">
+      <view class="form-label">船名号</view>
       <view class="input-container">
-        <image class="input-icon" src="/images/exam.png"></image>
-        <input class="input-field" placeholder="请输入您的船号" bindinput="inputShipNumber" value="{{shipNumber}}"
-               confirm-type="next"></input>
+        <input class="input-field" placeholder="请输入您的船号" bindinput="inputShipNumber" value="{{shipNumber}}" confirm-type="next"></input>
       </view>
     </view>
 
     <!-- 地区选择 -->
     <view class="form-item">
-      <view class="input-container">
-        <image class="input-icon" src="/images/exam.png"></image>
-        <picker bindchange="bindRegionChange" value="{{regionIndex}}" range="{{regionList}}">
-          <view class="select-field">
-            {{regionList[regionIndex] || '请选择地区'}}
+      <view class="form-label">地区</view>
+      <view class="area-container">
+        <picker bindchange="bindCityChange" value="{{cityIndex}}" range="{{cityList}}">
+          <view class="area-select">
+            {{cityList[cityIndex] || '请选择市'}}
+          </view>
+        </picker>
+        <text class="area-separator"></text>
+        <picker bindchange="bindDistrictChange" value="{{districtIndex}}" range="{{districtList}}" disabled="{{!selectedCity}}">
+          <view class="area-select">
+            {{districtList[districtIndex] || '请选择区县'}}
           </view>
         </picker>
       </view>
@@ -43,8 +56,8 @@
 
     <!-- 身份选择 -->
     <view class="form-item">
+      <view class="form-label">身份</view>
       <view class="input-container">
-        <image class="input-icon" src="/images/exam.png"></image>
         <picker bindchange="bindIdentityChange" value="{{identityIndex}}" range="{{identityList}}">
           <view class="select-field">
             {{identityList[identityIndex] || '请选择身份'}}
@@ -58,6 +71,9 @@
 
     <!-- 提交按钮 -->
     <button class="btn-primary" bindtap="submitRegister" type="primary"
-            loading="{{isLoading}}" disabled="{{isLoading}}">提交注册</button>
+            loading="{{isLoading}}" disabled="{{isLoading}}">
+      <text wx:if="{{isLoading}}">注册中...</text>
+      <text wx:else>提交注册</text>
+    </button>
   </view>
 </view>

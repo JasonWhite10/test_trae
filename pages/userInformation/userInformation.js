@@ -12,7 +12,19 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function() {
+  onLoad: function(options) {
+    // 检查登录状态
+    if (!getApp().checkLoginStatus()) {
+      return;
+    }
+
+    // 获取用户信息
+    const userInfo = getApp().globalData.userInfo || {};
+    this.setData({
+      userInfo: userInfo
+    });
+
+    // 加载考试分数和证书信息
     this.loadExamScores();
     this.loadCertificates();
   },

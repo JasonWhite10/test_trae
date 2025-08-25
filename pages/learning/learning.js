@@ -8,10 +8,7 @@ Page({
 
   onLoad: function() {
     // 检查登录状态
-    if (!getApp().globalData.isLogin) {
-      wx.redirectTo({
-        url: '/pages/login/login'
-      });
+    if (!getApp().checkLoginStatus()) {
       return;
     }
 
@@ -100,9 +97,7 @@ Page({
       content: '确定要退出登录吗？',
       success: (res) => {
         if (res.confirm) {
-          getApp().globalData.isLogin = false;
-          getApp().globalData.userInfo = null;
-          wx.redirectTo({ url: '/pages/login/login' });
+          getApp().logout();
         }
       }
     });

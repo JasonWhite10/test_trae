@@ -68,8 +68,8 @@ Page({
   // 生命周期函数
   onLoad() {
     // 检查是否已登录
-    const adminToken = wx.getStorageSync('adminToken');
-    if (adminToken) {
+    const isAdminLogin = getApp().checkAdminLoginStatus(false); // 检查但不跳转
+    if (isAdminLogin) {
       wx.redirectTo({
         url: '/pages/admin/dashboard/dashboard'
       });

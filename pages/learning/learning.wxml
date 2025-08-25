@@ -3,7 +3,7 @@
   <!-- 用户信息卡片 -->
   <view class="user-card">
     <view class="user-avatar-container">
-      <image class="user-avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      <image class="user-avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.svg'}}" mode="aspectFill"></image>
     </view>
     <view class="user-info">
       <view class="user-name">欢迎，{{userInfo.nickName || userInfo.name}}</view>

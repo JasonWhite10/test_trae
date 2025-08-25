@@ -54,7 +54,6 @@ page {
 
 .input-field {
   height: 80rpx;
-  border: 1rpx solid var(--border-color);
   border-radius: 8rpx;
   padding: 0 20rpx;
   font-size: 28rpx;

@@ -1,5 +1,5 @@
 // pages/login/login.js
-//https://developers.weixin.qq.com/miniprogram/dev/api/
+
 Page({
   data: {
     username: '',
@@ -11,9 +11,9 @@ Page({
   },
 
   // 关闭登录页面
-  closeLogin: function() {
+  closeLogin: function () {
     wx.navigateBack({
-      fail: function(err) {
+      fail: function (err) {
         console.error('返回上一页失败:', err);
         wx.showToast({
           title: '操作失败，请重试',
@@ -23,7 +23,7 @@ Page({
     });
   },
 
-  onLoad: function(options) {
+  onLoad: function (options) {
     // 检查是否有token
     const token = wx.getStorageSync('token');
     if (token) {
@@ -41,18 +41,18 @@ Page({
   /**
    * 检查是否为首次登录
    */
-  checkFirstLogin: function() {
+  checkFirstLogin: function () {
     try {
       // 这里应该调用后端API检查用户是否已完善信息
       // 为了模拟，我们假设新用户token中包含'new'
       const token = wx.getStorageSync('token');
       const isFirstLogin = token.includes('new');
-      
+
       if (isFirstLogin) {
         // 首次登录，跳转到注册页面
         wx.navigateTo({
           url: '/pages/register/register',
-          fail: function(err) {
+          fail: function (err) {
             console.error('跳转到注册页失败:', err);
             wx.showToast({
               title: '跳转失败，请重试',
@@ -62,9 +62,10 @@ Page({
         });
       } else {
         // 非首次登录，跳转到学习中心
-        wx.redirectTo({
+        // 使用switchTab因为learning是tabBar页面
+        wx.switchTab({
           url: '/pages/learning/learning',
-          fail: function(err) {
+          fail: function (err) {
             console.error('跳转到学习中心失败:', err);
             wx.showToast({
               title: '跳转失败，请重试',
@@ -85,7 +86,7 @@ Page({
   /**
    * 本机号码一键登录
    */
-  phoneLogin: async function() {
+  phoneLogin: async function () {
     try {
       // 设置登录中状态
       this.setData({
@@ -109,16 +110,16 @@ Page({
           const token = 'mock_token_' + Date.now() + (isNewUser ? '_new' : '');
           wx.setStorageSync('token', token);
           wx.setStorageSync('userInfo', JSON.stringify(userInfo));
-          
+
           // 更新全局状态
           app.globalData.isLogin = true;
           app.globalData.userInfo = userInfo;
-          
+
           // 隐藏加载提示
           this.setData({
             isLoading: false
           });
-          
+
           // 检查是否为首次登录
           this.checkFirstLogin();
         } catch (e) {
@@ -143,7 +144,7 @@ Page({
       });
     }
   },
- 
+
   /**
    * 切换调试模式
    * @description 仅用于开发环境，切换调试模式的显示状态
@@ -175,7 +176,7 @@ Page({
           wx.setStorageSync('token', token);
           wx.setStorageSync('userInfo', JSON.stringify({
             nickName: '调试用户',
-            avatarUrl: '/images/default-avatar.png'
+            avatarUrl: '/images/default-avatar.svg'
           }));
           // 检查是否为首次登录
           this.checkFirstLogin();
@@ -219,7 +220,7 @@ Page({
    * 输入用户名
    * @param {Object} e - 事件对象
    */
-  inputUsername: function(e) {
+  inputUsername: function (e) {
     this.setData({
       username: e.detail.value.trim()
     });
@@ -229,7 +230,7 @@ Page({
    * 输入密码
    * @param {Object} e - 事件对象
    */
-  inputPassword: function(e) {
+  inputPassword: function (e) {
     this.setData({
       password: e.detail.value.trim()
     });
@@ -238,15 +239,29 @@ Page({
   /**
    * 管理员登录
    */
-  adminLogin: function() {
-
-       // 跳转到结果页面
+  adminLogin: function () {
+    //跳转到结果页面
     setTimeout(() => {
       wx.navigateTo({
         url: '/pages/admin/login/login'
       });
     });
-  }
+  },
+  
+  /**
+   * 用户登录
+   */
+  useruserLogin: function () {
+    setTimeout(() => {
+      wx.navigateTo({
+        url: '/pages/register/register',
+      });
+    }, 1000);
+  },
+
+
+
+    //跳转到结果页面
     /*  
     try {
       const { username, password } = this.data;
@@ -295,4 +310,4 @@ Page({
     }
   }
     */
-})
+  })

@@ -55,25 +55,14 @@ Page({
   onLoad() {
     console.log('dashboard页面加载中...');
     // 检查登录状态
-    const adminInfo = wx.getStorageSync('adminInfo');
-    const adminToken = wx.getStorageSync('adminToken');
-
-    console.log('adminToken:', adminToken);
-    console.log('adminInfo:', adminInfo);
-
-    if (!adminToken || !adminInfo) {
-      console.log('登录状态无效，跳转到登录页');
-      wx.redirectTo({
-        url: '/pages/admin/login/login',
-        success: function(res) {
-          console.log('跳转登录页成功', res);
-        },
-        fail: function(err) {
-          console.log('跳转登录页失败', err);
-        }
-      });
+    if (!getApp().checkAdminLoginStatus()) {
       return;
     }
+
+    // 获取管理员信息
+    const adminInfo = wx.getStorageSync('adminInfo') || {};
+    
+    console.log('adminInfo:', adminInfo);
 
     this.setData({
       adminInfo

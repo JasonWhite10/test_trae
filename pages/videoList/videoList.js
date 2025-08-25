@@ -7,12 +7,9 @@ Page({
     totalPages: 0
   },
 
-  onLoad: function() {
+  onLoad: function(options) {
     // 检查登录状态
-    if (!getApp().globalData.isLogin) {
-      wx.redirectTo({
-        url: '/pages/login/login'
-      });
+    if (!getApp().checkLoginStatus()) {
       return;
     }
 
