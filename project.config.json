@@ -47,7 +47,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.31.0",
+  "libVersion": "3.9.2",
   "appid": "wx322b1e1b95c14c3f",
   "projectname": "船员学习平台",
   "isGameTourist": false,

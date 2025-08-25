@@ -1,4 +1,5 @@
 // pages/login/login.js
+//https://developers.weixin.qq.com/miniprogram/dev/api/
 Page({
   data: {
     username: '',

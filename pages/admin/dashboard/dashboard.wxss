@@ -27,10 +27,10 @@
   font-size: 28rpx;
   color: var(--primary-color);
   background: none;
-  padding: 0;
+  padding: 1;
   min-width: auto;
   position: absolute;
-  right: 30rpx;
+  right: 0rpx;
   transition: all 0.2s ease;
 }
 
