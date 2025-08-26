@@ -21,7 +21,7 @@
     <!-- 视频学习 -->
     <view class="function-card" bindtap="goToVideoList">
       <view class="function-icon video-icon">
-        <image class="icon-img" src="/images/learning.png"></image>
+        <image class="icon-img" src="/images/shipin_selected.png"></image>
       </view>
       <view class="function-info">
         <view class="function-title">视频学习</view>
@@ -33,7 +33,7 @@
     <!-- 答题挑战 -->
     <view class="function-card" bindtap="goToExam">
       <view class="function-icon exam-icon">
-        <image class="icon-img" src="/images/exam.png"></image>
+        <image class="icon-img" src="/images/dati.png"></image>
       </view>
       <view class="function-info">
         <view class="function-title">答题挑战</view>

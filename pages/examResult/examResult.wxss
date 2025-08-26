@@ -70,3 +70,59 @@
   color: var(--text-tertiary);
   font-size: 28rpx;
 }
+
+/* 未完成考试样式 */
+.not-taken {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 20rpx;
+  text-align: center;
+}
+
+.not-taken-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+}
+
+.not-taken-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: var(--text-primary);
+}
+
+.not-taken-desc {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 0 40rpx;
+}
+
+/* 评分中样式 */
+.scoring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 20rpx;
+  text-align: center;
+}
+
+.scoring-icon {
+  font-size: 120rpx;
+  margin-bottom: 30rpx;
+}
+
+.scoring-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  color: var(--text-primary);
+}
+
+.scoring-desc {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 0 40rpx;
+}

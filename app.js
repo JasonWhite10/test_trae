@@ -49,10 +49,20 @@ App({
     
     this.globalData.isLogin = isLogin;
     
+    // 只有在确实需要重定向且当前不是login页面时才进行重定向
+    // 避免循环跳转问题
     if (!isLogin && needRedirect) {
-      wx.redirectTo({
-        url: '/pages/login/login'
-      });
+      // 获取当前页面路径
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const currentPagePath = currentPage.route || '';
+      
+      // 如果当前不是login页面，才跳转到login页面
+      if (!currentPagePath.includes('/login/login')) {
+        wx.redirectTo({
+          url: '/pages/login/login'
+        });
+      }
     }
     
     return isLogin;
@@ -171,19 +181,30 @@ App({
 
   /**
    * 封装获取用户信息API
+   * 注意：该方法必须由用户点击手势触发，不能在页面加载或其他自动执行的生命周期中调用
    * @returns {Promise} - 返回用户信息的Promise
    */
   getUserProfile: function() {
     return new Promise((resolve, reject) => {
-      wx.getUserProfile({
-        desc: '用于完善会员资料',
-        success: (res) => {
-          resolve(res.userInfo);
-        },
-        fail: (err) => {
-          reject(err);
-        }
-      });
+      try {
+        wx.getUserProfile({
+          desc: '用于完善会员资料',
+          success: (res) => {
+            console.log('获取用户信息成功:', res.userInfo);
+            resolve(res.userInfo);
+          },
+          fail: (err) => {
+            console.warn('获取用户信息失败:', err);
+            // 提供更友好的错误信息
+            const friendlyErr = new Error('获取用户信息失败，请点击页面上的按钮重新尝试');
+            friendlyErr.originalError = err;
+            reject(friendlyErr);
+          }
+        });
+      } catch (e) {
+        console.error('调用getUserProfile方法异常:', e);
+        reject(new Error('获取用户信息接口异常，请稍后再试'));
+      }
     });
   }
 })
