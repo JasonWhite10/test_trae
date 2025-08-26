@@ -220,62 +220,81 @@ Page({
       const app = getApp();
       const code = await app.wxLogin();
 
-      // 这里应该调用后端API提交注册信息和code
-      // 模拟后端请求
-      setTimeout(() => {
-        try {
-          // 模拟注册成功
-        // 更新用户信息
-        const userInfoStr = wx.getStorageSync('userInfo');
-        if (userInfoStr) {
-          const userInfoObj = JSON.parse(userInfoStr);
-          // 合并用户信息
-          const updatedUserInfo = { ...userInfoObj, ...userInfo };
-          wx.setStorageSync('userInfo', JSON.stringify(updatedUserInfo));
-
-          // 更新全局状态
-          app.globalData.userInfo = updatedUserInfo;
-        } else {
-          // 首次注册，直接存储
-          wx.setStorageSync('userInfo', JSON.stringify(userInfo));
-          app.globalData.userInfo = userInfo;
-        }
-
-          // 重新生成token（移除'new'标记）
-          const oldToken = wx.getStorageSync('token');
-          const newToken = oldToken.replace('_new', '');
-          wx.setStorageSync('token', newToken);
-          
-          // 更新全局登录状态
-          app.globalData.isLogin = true;
-
-          // 隐藏加载提示
-          this.setData({
-            isLoading: false
-          });
-
-          // 跳转到学习中心（使用switchTab因为learning是tabBar页面）
-          wx.switchTab({
-            url: '/pages/learning/learning',
-            fail: function(err) {
-              console.error('跳转到学习中心失败:', err);
-              wx.showToast({
-                title: '跳转失败，请重试',
-                icon: 'none'
-              });
+      // 创建Promise封装模拟的异步请求，确保正确处理异步逻辑
+      await new Promise((resolve, reject) => {
+        // 这里应该调用后端API提交注册信息和code
+        // 模拟后端请求
+        setTimeout(() => {
+          try {
+            // 模拟注册成功
+            // 更新用户信息
+            const userInfoStr = wx.getStorageSync('userInfo');
+            let updatedUserInfo;
+            
+            if (userInfoStr) {
+              const userInfoObj = JSON.parse(userInfoStr);
+              // 合并用户信息
+              updatedUserInfo = { ...userInfoObj, ...userInfo };
+            } else {
+              // 首次注册或临时测试登录，使用用户输入信息
+              updatedUserInfo = userInfo;
             }
-          });
-        } catch (e) {
-          console.error('注册后处理失败:', e);
-          this.setData({
-            isLoading: false
-          });
-          wx.showToast({
-            title: '注册失败，请重试',
-            icon: 'none'
-          });
-        }
-      }, 1000);
+            
+            // 存储用户信息
+            wx.setStorageSync('userInfo', JSON.stringify(updatedUserInfo));
+
+            // 更新全局状态
+            app.globalData.userInfo = updatedUserInfo;
+
+            // 处理token逻辑（兼容临时测试和正式登录两种情况）
+            let oldToken = wx.getStorageSync('token');
+            // 如果没有token或token无效，生成临时token
+            if (!oldToken) {
+              oldToken = 'temp_token_' + Date.now() + '_new';
+              wx.setStorageSync('token', oldToken);
+            }
+            
+            // 重新生成token（移除'new'标记）
+            const newToken = oldToken.replace('_new', '');
+            wx.setStorageSync('token', newToken);
+            
+            // 验证token是否已正确存储
+            const storedToken = wx.getStorageSync('token');
+            console.log('存储后的token:', storedToken);
+            
+            // 更新全局登录状态
+            app.globalData.isLogin = true;
+
+            // 隐藏加载提示
+            this.setData({
+              isLoading: false
+            });
+
+            resolve();
+          } catch (e) {
+            console.error('注册后处理失败:', e);
+            reject(e);
+          }
+        }, 1000);
+      });
+
+      // 延迟一小段时间再跳转，确保token已正确存储
+      setTimeout(() => {
+        // 跳转到学习中心（使用switchTab因为learning是tabBar页面）
+        wx.switchTab({
+          url: '/pages/learning/learning',
+          success: () => {
+            console.log('注册成功，已跳转到学习中心');
+          },
+          fail: function(err) {
+            console.error('跳转到学习中心失败:', err);
+            wx.showToast({
+              title: '跳转失败，请重试',
+              icon: 'none'
+            });
+          }
+        });
+      }, 300);
     } catch (e) {
       console.error('提交注册失败:', e);
       this.setData({

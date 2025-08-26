@@ -1,31 +1,58 @@
 <!-- pages/videoList/videoList.wxml -->
 <view class="container">
-  <view class="title">视频学习</view>
+  <!-- 头部区域 -->
+  <view class="header">
+    <view class="title">视频学习</view>
+    <view class="subtitle">提高安全意识，掌握安全技能</view>
+  </view>
 
-  <view class="video-list">
-    <view class="video-item" wx:for="{{currentPageData}}" wx:key="id" bindtap="playVideo" data-id="{{item.id}}">
-      <image class="video-thumbnail" src="{{item.thumbnail}}" mode="aspectFill"></image>
+  <!-- 视频列表 - 双列网格布局 -->
+  <view class="video-grid">
+    <!-- 加载状态 -->
+    <view class="loading-tip" wx:if="{{loading && videoList.length === 0}}">
+      <view class="loading-spinner"></view>
+      <text>加载视频中...</text>
+    </view>
+    
+    <!-- 视频卡片 -->
+    <view class="video-card" wx:for="{{videoList}}" wx:key="id" bindtap="playVideo" data-id="{{item.id}}">
+      <!-- 视频缩略图和时长 -->
+      <view class="thumbnail-container">
+        <image class="video-thumbnail" src="{{item.cover}}" mode="aspectFill"></image>
+        <view class="duration-badge">{{item.duration}}</view>
+        <view class="play-icon"></view>
+        <!-- 播放进度条 -->
+        <view class="video-progress-bar">
+          <view class="progress-value" style="width: {{item.progress}}%"></view>
+        </view>
+      </view>
+      
+      <!-- 视频信息 -->
       <view class="video-info">
         <view class="video-title">{{item.title}}</view>
-        <view class="video-progress">
-          <text>已观看: {{item.progress}}%</text>
-          <view class="progress-bar">
-            <view class="progress-value" style="width: {{item.progress}}%"></view>
-          </view>
+        <view class="video-meta">
+          <text class="video-view-count">{{item.viewCount}}次观看</text>
+          <text class="progress-text" wx:if="{{item.progress > 0}}">{{item.progress}}%已观看</text>
         </view>
       </view>
     </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-tip" wx:if="{{!loading && videoList.length === 0}}">
+      <image class="empty-icon" src="/images/shipin.png"></image>
+      <text class="empty-text">暂无视频数据</text>
+      <text class="empty-subtext">请稍后再试或联系管理员</text>
+    </view>
   </view>
 
-  <view class="pagination">
-    <view class="pagination-btn {{currentPage <= 1 ? 'pagination-disabled' : ''}}" bindtap="goToPrevPage" wx:if="{{totalPages > 1}}">
-      <text>←</text>
-    </view>
-    <view class="pagination-text" wx:if="{{totalPages > 1}}">
-      {{currentPage}}/{{totalPages}}
-    </view>
-    <view class="pagination-btn {{currentPage >= totalPages ? 'pagination-disabled' : ''}}" bindtap="goToNextPage" wx:if="{{totalPages > 1}}">
-      <text>→</text>
-    </view>
+  <!-- 上拉加载更多提示 -->
+  <view class="loading-more" wx:if="{{loading && videoList.length > 0}}">
+    <view class="loading-spinner small"></view>
+    <text>加载更多视频...</text>
+  </view>
+  
+  <!-- 到底提示 -->
+  <view class="end-tip" wx:if="{{!loading && !hasMore && videoList.length > 0}}">
+    <text>已经到底了</text>
   </view>
 </view>

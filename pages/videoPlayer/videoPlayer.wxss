@@ -1,47 +1,245 @@
-/* pages/videoPlayer/videoPlayer.wxss */
-.video-player-container {
-  height: 450rpx;
+/* 基础变量定义 */
+:root {
+  --primary-color: #07c160;
+  --background-color: #f5f5f5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --border-color: #eeeeee;
+  --white: #ffffff;
+  --shadow-light: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  --radius-small: 8rpx;
+  --radius-medium: 12rpx;
+  --radius-large: 16rpx;
 }
 
-.video-player {
-  height: 100%;
-}
-
-.player-controls {
-  height: 80rpx;
-}
-
-.play-btn {
-  cursor: pointer;
-}
-
-.play-progress {
-  flex: 1;
-  height: 8rpx;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 4rpx;
-  margin: 0 20rpx;
+/* 视频播放器包装器 */
+.video-player-wrapper {
   position: relative;
+  background-color: #000000;
 }
 
+/* 视频播放器 */
+.video-player {
+  width: 100%;
+  height: 450rpx;
+  background-color: #000000;
+}
+
+/* 全屏模式样式通过内联样式控制，此处保留基础样式 */
+/* 横屏模式下的视频播放器 */
+@media screen and (orientation: landscape) {
+  .video-player {
+    height: 100vh;
+  }
+}
+
+/* 加载中遮罩 */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* 加载动画 */
+.loading-spinner {
+  width: 80rpx;
+  height: 80rpx;
+  border: 8rpx solid rgba(255, 255, 255, 0.3);
+  border-top: 8rpx solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: white;
+  font-size: 28rpx;
+}
+
+/* 错误提示遮罩 */
+.error-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.error-content {
+  text-align: center;
+  padding: 40rpx;
+}
+
+.error-icon {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.8;
+}
+
+.error-message {
+  color: white;
+  font-size: 28rpx;
+  margin-bottom: 30rpx;
+  display: block;
+}
+
+.retry-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--radius-medium);
+  padding: 0 40rpx;
+  font-size: 28rpx;
+  line-height: 80rpx;
+  height: 80rpx;
+  border: none;
+  outline: none;
+}
+
+.retry-btn:active {
+  background-color: #06b055;
+}
+
+.error-tips {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 26rpx;
+  text-align: center;
+  padding: 20rpx;
+  line-height: 1.5;
+}
+
+/* 视频信息区域 */
+.video-info {
+  background-color: white;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 视频标题 */
+.video-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 20rpx;
+  line-height: 1.4;
+}
+
+/* 视频元数据 */
+.video-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+/* 视频观看次数 */
+.video-view-count {
+  flex: 1;
+}
+
+/* 视频时长 */
+.video-duration {
+  text-align: right;
+}
+
+/* 视频进度区域 */
+.video-progress-section {
+  margin-top: 20rpx;
+}
+
+/* 进度标签 */
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+/* 进度条 */
+.progress-bar {
+  height: 10rpx;
+  background-color: var(--border-color);
+  border-radius: 5rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 进度值 */
 .progress-value {
   height: 100%;
   background-color: var(--primary-color);
+  border-radius: 5rpx;
+  transition: width 0.3s ease;
 }
 
-.progress-point {
-  width: 20rpx;
-  height: 20rpx;
-  border-radius: 50%;
-  background-color: white;
+/* 进度条滑块 */
+.progress-thumb {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
+  width: 24rpx;
+  height: 24rpx;
+  background-color: white;
+  border: 3rpx solid var(--primary-color);
+  border-radius: 50%;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.2);
 }
 
-.time-display {
-  font-size: 24rpx;
-  width: 120rpx;
-  text-align: center;
-  color: white;
+/* 横屏模式适配 */
+@media screen and (orientation: landscape) {
+  .video-player {
+    height: 100vh;
+  }
+  
+  .video-info {
+    display: none;
+  }
+}
+
+/* 竖屏模式下的适配 */
+@media screen and (orientation: portrait) {
+  .video-player {
+    height: 450rpx;
+  }
+}
+
+/* 小屏幕设备适配 */
+@media (max-width: 375px) {
+  .video-player {
+    height: 350rpx;
+  }
+  
+  .video-info {
+    padding: 20rpx 16rpx;
+  }
+  
+  .video-title {
+    font-size: 30rpx;
+  }
+  
+  .video-meta {
+    font-size: 24rpx;
+  }
 }

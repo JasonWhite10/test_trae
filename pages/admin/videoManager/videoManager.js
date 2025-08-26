@@ -1,8 +1,12 @@
 // pages/admin/videoManager/videoManager.js
+import videoStorage from '../../../utils/videoStorage';
+
+const app = getApp();
+
 Page({
   data: {
     videoList: [],
-    loading: true,
+    loading: false, // 初始设为false，loadVideoList开始时再设为true
     currentPage: 1,
     pageSize: 10,
     totalCount: 0,
@@ -31,45 +35,37 @@ Page({
       loading: true
     });
 
-    // 这里应该是真实的API调用
-    // 为了演示，我们使用模拟数据
-    setTimeout(() => {
-      const mockVideos = [];
-      const startIndex = (this.data.currentPage - 1) * this.data.pageSize;
-
-      // 模拟根据关键词筛选
-      const keyword = this.data.searchKeyword.toLowerCase();
-      const allVideos = [
-        { id: 1, title: '船舶安全知识培训', duration: '15:30', cover: '/assets/images/video1.jpg', viewCount: 128 },
-        { id: 2, title: '消防演练教程', duration: '20:15', cover: '/assets/images/video2.jpg', viewCount: 96 },
-        { id: 3, title: '海上急救操作指南', duration: '25:40', cover: '/assets/images/video3.jpg', viewCount: 156 },
-        { id: 4, title: '船舶设备维护保养', duration: '30:22', cover: '/assets/images/video4.jpg', viewCount: 87 },
-        { id: 5, title: '航行规则与避碰', duration: '18:10', cover: '/assets/images/video5.jpg', viewCount: 142 },
-        { id: 6, title: '气象与海洋知识', duration: '22:35', cover: '/assets/images/video6.jpg', viewCount: 76 },
-        { id: 7, title: '船舶应急处理', duration: '28:15', cover: '/assets/images/video7.jpg', viewCount: 112 },
-        { id: 8, title: '船员职责与管理', duration: '16:40', cover: '/assets/images/video8.jpg', viewCount: 93 },
-        { id: 9, title: '航海仪器使用', duration: '24:18', cover: '/assets/images/video9.jpg', viewCount: 85 },
-        { id: 10, title: '船舶防污染措施', duration: '20:55', cover: '/assets/images/video10.jpg', viewCount: 108 },
-        { id: 11, title: '港口国检查指南', duration: '32:10', cover: '/assets/images/video11.jpg', viewCount: 67 },
-        { id: 12, title: '船舶通信系统', duration: '19:30', cover: '/assets/images/video12.jpg', viewCount: 79 },
-      ];
-
-      // 模拟搜索筛选
-      const filteredVideos = keyword
-        ? allVideos.filter(video => video.title.toLowerCase().includes(keyword))
-        : allVideos;
-
-      // 模拟分页
-      for (let i = startIndex; i < startIndex + this.data.pageSize && i < filteredVideos.length; i++) {
-        mockVideos.push(filteredVideos[i]);
+    try {
+      // 获取所有视频数据
+      let allVideos = videoStorage.getVideoList();
+      
+      // 根据关键词筛选视频
+      const keyword = this.data.searchKeyword.trim();
+      if (keyword) {
+        allVideos = videoStorage.searchVideos(keyword);
       }
 
+      // 执行分页处理
+      const startIndex = (this.data.currentPage - 1) * this.data.pageSize;
+      const endIndex = startIndex + this.data.pageSize;
+      const paginatedVideos = allVideos.slice(startIndex, endIndex);
+
       this.setData({
-        videoList: [...this.data.videoList, ...mockVideos],
-        totalCount: filteredVideos.length,
+        videoList: this.data.currentPage === 1 ? paginatedVideos : [...this.data.videoList, ...paginatedVideos],
+        totalCount: allVideos.length,
         loading: false
       });
-    }, 800);
+    } catch (error) {
+      console.error('加载视频列表失败:', error);
+      wx.showToast({
+        title: '加载失败',
+        icon: 'none',
+        duration: 2000
+      });
+      this.setData({
+        loading: false
+      });
+    }
   },
 
   // 上拉加载更多
@@ -82,35 +78,43 @@ Page({
     }
   },
 
-  // 跳转到视频编辑页面
-  toEditVideo(e) {
-    const { id } = e.currentTarget.dataset;
-    wx.navigateTo({
-      url: `/pages/admin/videoManager/editVideo?id=${id}`
-    });
-  },
-
   // 删除视频
   deleteVideo(e) {
     const { id } = e.currentTarget.dataset;
 
     wx.showModal({
       title: '确认删除',
-      content: '确定要删除该视频吗？',
+      content: '确定要删除该视频吗？删除后无法恢复。',
       success: (res) => {
         if (res.confirm) {
-          // 这里应该是真实的删除API调用
-          // 为了演示，我们直接从列表中移除
-          const newVideoList = this.data.videoList.filter(video => video.id !== id);
-          this.setData({
-            videoList: newVideoList,
-            totalCount: this.data.totalCount - 1
-          });
+          try {
+            // 调用视频存储的删除方法
+            const success = videoStorage.deleteVideo(id);
+            
+            if (success) {
+              // 更新列表
+              const newVideoList = this.data.videoList.filter(video => video.id !== id);
+              this.setData({
+                videoList: newVideoList,
+                totalCount: this.data.totalCount - 1
+              });
 
-          wx.showToast({
-            title: '删除成功',
-            icon: 'success'
-          });
+              wx.showToast({
+                title: '删除成功',
+                icon: 'success',
+                duration: 2000
+              });
+            } else {
+              throw new Error('删除操作未成功');
+            }
+          } catch (error) {
+            console.error('删除视频失败:', error);
+            wx.showToast({
+              title: '删除失败',
+              icon: 'none',
+              duration: 2000
+            });
+          }
         }
       }
     });
@@ -118,19 +122,79 @@ Page({
 
   // 添加新视频
   addNewVideo() {
-    wx.navigateTo({
-      url: '/pages/admin/videoManager/editVideo'
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['video'],
+      sourceType: ['album', 'camera'],
+      maxDuration: 60,
+      camera: 'back',
+      success: (res) => {
+        // 提取视频信息
+        const tempFilePath = res.tempFiles[0].tempFilePath;
+        const duration = Math.floor(res.tempFiles[0].duration);
+        
+        // 显示输入标题的弹窗
+        wx.showModal({
+          title: '添加视频',
+          editable: true,
+          placeholderText: '请输入视频标题',
+          success: (modalRes) => {
+            if (modalRes.confirm && modalRes.content) {
+              try {
+                // 添加视频到存储
+                videoStorage.addVideo({
+                  title: modalRes.content.trim(),
+                  duration: this.formatDuration(duration),
+                  src: tempFilePath,
+                  cover: 'https://via.placeholder.com/300x200?text=' + encodeURIComponent(modalRes.content.trim())
+                });
+                
+                wx.showToast({
+                  title: '添加成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+                
+                // 重新加载视频列表
+                this.setData({
+                  currentPage: 1,
+                  videoList: []
+                });
+                this.loadVideoList();
+              } catch (error) {
+                console.error('添加视频失败:', error);
+                wx.showToast({
+                  title: '添加失败: ' + (error.message || '未知错误'),
+                  icon: 'none',
+                  duration: 3000
+                });
+              }
+            }
+          }
+        });
+      },
+      fail: (err) => {
+        console.error('选择视频失败:', err);
+        wx.showToast({
+          title: '选择视频失败',
+          icon: 'none',
+          duration: 2000
+        });
+      }
     });
+  },
+
+  // 格式化时长
+  formatDuration(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   },
 
   // 生命周期函数
   onLoad() {
-    // 检查登录状态
-    const adminToken = wx.getStorageSync('adminToken');
-    if (!adminToken) {
-      wx.redirectTo({
-        url: '/pages/admin/login/login'
-      });
+    // 使用app中的统一方法检查管理员登录状态
+    if (!app.checkAdminLoginStatus()) {
       return;
     }
 
@@ -139,7 +203,8 @@ Page({
 
   // 生命周期函数 - 监听页面显示
   onShow() {
-    // 如果从编辑页面返回，刷新列表
+    // 每次页面显示时重新加载列表，确保数据是最新的
+    // 这确保了管理员修改操作后用户能够动态获取最新视频数据
     if (this.data.videoList.length > 0) {
       this.setData({
         videoList: [],

@@ -3,7 +3,10 @@ Page({
   data: {
     score: 0,
     isPerfect: false,
-    certificateUrl: ''
+    certificateUrl: '',
+    hasTakenExam: false,
+    userInfo: {},
+    currentDate: ''
   },
 
   onLoad: function(options) {
@@ -12,20 +15,54 @@ Page({
       return;
     }
 
-    if (options.score) {
-      const score = parseInt(options.score);
+    // 获取用户信息和应用实例
+    const app = getApp();
+    this.setData({
+      userInfo: app.globalData.userInfo || {},
+      currentDate: this.formatDate(new Date())
+    });
+
+    // 获取分数（优先从URL参数获取，其次从全局状态获取）
+    let score = null;
+    if (options.score !== undefined) {
+      score = parseInt(options.score);
+    } else if (app.globalData.examScore !== undefined) {
+      score = app.globalData.examScore;
+    }
+
+    // 判断是否完成考试
+    if (score !== null) {
       const isPerfect = score === 100;
 
       this.setData({
         score: score,
-        isPerfect: isPerfect
+        isPerfect: isPerfect,
+        hasTakenExam: true
       });
 
       // 如果满分，生成奖状
       if (isPerfect) {
         this.generateCertificate();
       }
+    } else {
+      // 未完成考试，检查全局状态
+      if (app.globalData.quizSubmitted) {
+        // 如果已经提交但没有分数，可能是评分中
+        this.setData({
+          hasTakenExam: true,
+          isScoring: true
+        });
+        // 可以添加定时检查评分结果的逻辑
+      }
     }
+  },
+
+  // 格式化日期
+  formatDate: function(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   },
 
   generateCertificate: function() {
@@ -77,16 +114,11 @@ Page({
     });
   },
 
-  // 设置导航栏返回按钮的行为
-  // 拦截返回按钮事件
+  // 正确的处理导航栏返回按钮的方式
+  // 重写默认的返回行为
   onBackPress: function() {
-    if (getApp().globalData.quizSubmitted) {
-      // 如果已完成考试，跳转到学习中心
-      wx.switchTab({
-        url: '/pages/learning/learning'
-      });
-      return true; // 表示已处理返回事件
-    }
+    // 不应该在这里直接跳转，这会干扰正常的导航流程
+    // 保留原始的返回行为
     return false; // 表示未处理，使用默认返回行为
   }
 })

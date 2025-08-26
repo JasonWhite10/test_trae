@@ -1,6 +1,7 @@
 <!-- pages/videoPlayer/videoPlayer.wxml -->
-<view class="container" style="padding: 0;">
-  <view class="video-player-container">
+<view class="container" style="padding: 0; background-color: #000000; min-height: 100vh; transition: background-color 0.3s ease;">
+  <!-- 视频播放器容器 - 支持横屏和全屏 -->
+  <view class="video-player-wrapper" style="{{isFullScreen ? 'width: 100%; height: 100vh; position: fixed; top: 0; left: 0; z-index: 999; background-color: #000000;' : ''}}">
     <video
       id="myVideo"
       class="video-player"
@@ -8,39 +9,52 @@
       bindtimeupdate="onTimeUpdate"
       bindended="onEnded"
       binderror="onError"
-      show-center-play-btn="false"
+      bindfullscreenchange="onFullscreenChange"
+      bindwaiting="onWaiting"
+      bindplay="onPlay"
+      bindpause="onPause"
+      show-center-play-btn="true"
       show-fullscreen-btn="true"
+      show-play-btn="true"
       enable-progress-gesture="true"
-      controls="false"
+      enable-play-gesture="true"
+      controls="true"
+      object-fit="contain"
     ></video>
 
-    <!-- 视频错误提示 -->
-    <view wx:if="{{videoError}}" class="error-message" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); padding: 20rpx; border-radius: 8rpx; color: white;">
-      {{errorMsg}}
+    <!-- 视频加载中提示 -->
+    <view wx:if="{{isLoading}}" class="loading-overlay">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
     </view>
 
-    <!-- 自定义控制栏 -->
-    <view class="player-controls" wx:if="{{!videoError}}">
-      <view class="play-btn" bindtap="togglePlay" style="width: 60rpx; height: 60rpx; display: flex; justify-content: center; align-items: center;">
-        <text style="font-size: 48rpx; color: white;">{{isPlaying ? '⏸' : '▶'}}</text>
-      </view>
-      <view class="play-progress">
-        <view class="progress-value" style="width: {{progress}}%"></view>
-        <view class="progress-point" style="left: {{progress}}%"></view>
-      </view>
-      <view class="time-display">
-        {{formatTime(currentTime)}} / {{formatTime(duration)}}
+    <!-- 视频错误提示 -->
+    <view wx:if="{{videoError}}" class="error-overlay">
+      <view class="error-content">
+        <image src="/images/shipin.png" class="error-icon"/>
+        <text class="error-message">{{errorMsg}}</text>
+        <button wx:if="{{showRetryOption}}" class="retry-btn" bindtap="retryPlay">重试</button>
+        <view wx:else class="error-tips">请尝试返回上级页面，重新选择其他视频观看</view>
       </view>
     </view>
   </view>
 
-  <view class="video-info" style="padding: 20rpx; background-color: white;">
-    <view class="video-title" style="font-size: 32rpx; font-weight: bold; margin-bottom: 10rpx;">{{videoInfo.title}}</view>
-    <view class="video-progress" style="font-size: 28rpx; color: var(--text-secondary); margin-bottom: 10rpx;">
-      观看进度: {{progress}}%
+  <!-- 非全屏模式下显示的视频信息 -->
+  <view class="video-info" wx:if="{{!isFullScreen && !videoError && videoInfo}}" style="padding: 30rpx 20rpx; background-color: white;">
+    <view class="video-title">{{videoInfo.title}}</view>
+    <view class="video-meta">
+      <text class="video-view-count">{{videoInfo.viewCount || 0}}次观看</text>
+      <text class="video-duration">{{videoInfo.duration}}</text>
     </view>
-    <view class="progress-bar" style="height: 8rpx; background-color: var(--border-color); border-radius: 4rpx; overflow: hidden;">
-      <view class="progress-value" style="width: {{progress}}%"></view>
+    <view class="video-progress-section">
+      <view class="progress-label">
+        <text>观看进度: {{progress}}%</text>
+        <text>{{formatTime(currentTime)}} / {{formatTime(duration)}}</text>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-value" style="width: {{progress}}%"></view>
+        <view class="progress-thumb" style="left: {{progress}}%"></view>
+      </view>
     </view>
   </view>
 </view>

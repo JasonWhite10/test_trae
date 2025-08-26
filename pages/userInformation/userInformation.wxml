@@ -1,40 +1,41 @@
 <!--pages/userInformation/userInformation.wxml-->
 <view class="container">
-    <view class="function-list" style="display: flex; flex-direction: column; gap: 30rpx;">
-        <!-- 考试分数模块 -->
-        <view class="function-item" style="background-color: white; border-radius: 16rpx; padding: 40rpx; display: flex; align-items: center; box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);" bindtap="viewExamScores">
-        <view class="function-icon" style="width: 100rpx; height: 100rpx; background-color: #ff7d00; border-radius: 16rpx; display: flex; justify-content: center; align-items: center; margin-right: 30rpx;">
-            <text style="color: white; font-size: 60rpx;">📊</text>
-        </view>
-        <view class="function-info" style="flex: 1;">
-            <view class="function-title" style="font-size: 36rpx; font-weight: bold; margin-bottom: 10rpx;">考试分数</view>
-            <view class="function-desc" style="font-size: 28rpx; color: var(--text-secondary);">查看历史考试成绩和排名</view>
-        </view>
-        <view class="function-arrow" style="color: var(--text-tertiary); font-size: 36rpx;">→</view>
-        </view>
-
-        <!-- 个人奖状模块 -->
-        <view class="function-item" style="background-color: white; border-radius: 16rpx; padding: 40rpx; display: flex; align-items: center; box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);" bindtap="viewCertificates">
-        <view class="function-icon" style="width: 100rpx; height: 100rpx; background-color: #f7ba1e; border-radius: 16rpx; display: flex; justify-content: center; align-items: center; margin-right: 30rpx;">
-            <text style="color: white; font-size: 60rpx;">🏆</text>
-        </view>
-        <view class="function-info" style="flex: 1;">
-            <view class="function-title" style="font-size: 36rpx; font-weight: bold; margin-bottom: 10rpx;">个人奖状</view>
-            <view class="function-desc" style="font-size: 28rpx; color: var(--text-secondary);">查看和保存您的满分奖状</view>
-        </view>
-        <view class="function-arrow" style="color: var(--text-tertiary); font-size: 36rpx;">→</view>
-        </view>
-
-        <!-- 退出登录模块 -->
-        <view class="function-item" style="background-color: white; border-radius: 16rpx; padding: 40rpx; display: flex; align-items: center; box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);" bindtap="logout">
-        <view class="function-icon" style="width: 100rpx; height: 100rpx; background-color: #f53f3f; border-radius: 16rpx; display: flex; justify-content: center; align-items: center; margin-right: 30rpx;">
-            <text style="color: white; font-size: 60rpx;">🚪</text>
-        </view>
-        <view class="function-info" style="flex: 1;">
-            <view class="function-title" style="font-size: 36rpx; font-weight: bold; margin-bottom: 10rpx;">退出登录</view>
-            <view class="function-desc" style="font-size: 28rpx; color: var(--text-secondary);">退出当前账号，支持扫码重新登录</view>
-        </view>
-        <view class="function-arrow" style="color: var(--text-tertiary); font-size: 36rpx;">→</view>
-        </view>
+  <!-- 功能列表 -->
+  <view class="function-list">
+    <!-- 考试分数模块 -->
+    <view class="function-item" bindtap="viewExamScores">
+      <view class="function-icon score-icon">
+        <text class="icon-text">📊</text>
+      </view>
+      <view class="function-info">
+        <view class="function-title">考试分数</view>
+        <view class="function-desc">查看历史考试成绩和排名</view>
+      </view>
+      <view class="function-arrow"></view>
     </view>
+
+    <!-- 个人奖状模块 -->
+    <view class="function-item" bindtap="viewCertificates">
+      <view class="function-icon certificate-icon">
+        <text class="icon-text">🏆</text>
+      </view>
+      <view class="function-info">
+        <view class="function-title">个人奖状</view>
+        <view class="function-desc">查看和保存您的满分奖状</view>
+      </view>
+      <view class="function-arrow"></view>
+    </view>
+
+    <!-- 退出登录模块 -->
+    <view class="function-item" bindtap="logout">
+      <view class="function-icon logout-icon">
+        <image class="icon-img" src="/images/exit.png"></image>
+      </view>
+      <view class="function-info">
+        <view class="function-title">退出登录</view>
+        <view class="function-desc">退出当前账号，支持扫码重新登录</view>
+      </view>
+      <view class="function-arrow"></view>
+    </view>
+  </view>
 </view>

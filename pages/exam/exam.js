@@ -218,10 +218,13 @@ Page({
       isFinished: true
     });
 
+    const app = getApp();
     // 标记测验为已提交
-    getApp().globalData.quizSubmitted = true;
+    app.globalData.quizSubmitted = true;
+    // 保存考试分数到全局状态，以便从其他入口也能查看
+    app.globalData.examScore = score;
     // 清除保存的进度
-    getApp().globalData.quizProgress = null;
+    app.globalData.quizProgress = null;
 
     // 跳转到结果页面
     setTimeout(() => {

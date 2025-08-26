@@ -7,29 +7,57 @@ Page({
   },
 
   onLoad: function() {
-    // 检查登录状态
-    if (!getApp().checkLoginStatus()) {
-      return;
-    }
-
-    this.setData({
-      userInfo: getApp().globalData.userInfo
-    });
-
-    // 加载考试分数和奖状数据
-    this.loadExamScores();
-    this.loadCertificates();
+    // 静默检查登录状态，避免循环跳转
+    this.silentCheckLoginStatus();
   },
 
   onShow: function() {
-    // 每次显示页面时更新用户信息
-    this.setData({
-      userInfo: getApp().globalData.userInfo
-    });
+    // 每次显示页面时更新用户信息和刷新数据
+    this.updateUserInfoAndRefreshData();
+  },
 
-    // 刷新数据
-    this.loadExamScores();
-    this.loadCertificates();
+  /**
+   * 静默检查登录状态，避免循环跳转
+   */
+  silentCheckLoginStatus: function() {
+    const token = wx.getStorageSync('token');
+    
+    if (!token) {
+      // 如果确实没有token，跳转到登录页面
+      setTimeout(() => {
+        wx.redirectTo({
+          url: '/pages/login/login'
+        });
+      }, 100);
+    } else {
+      // 有token，尝试加载用户信息和数据
+      this.updateUserInfoAndRefreshData();
+    }
+  },
+
+  /**
+   * 更新用户信息并刷新数据
+   */
+  updateUserInfoAndRefreshData: function() {
+    try {
+      // 从本地存储获取用户信息并更新全局状态
+      const userInfoStr = wx.getStorageSync('userInfo');
+      if (userInfoStr) {
+        const userInfo = JSON.parse(userInfoStr);
+        const app = getApp();
+        app.globalData.userInfo = userInfo;
+        
+        this.setData({
+          userInfo: userInfo
+        });
+      }
+      
+      // 加载考试分数和奖状数据
+      this.loadExamScores();
+      this.loadCertificates();
+    } catch (e) {
+      console.error('更新用户信息和数据失败:', e);
+    }
   },
 
   goToVideoList: function() {

@@ -115,11 +115,11 @@ page {
 }
 
 .score-icon {
-  background-color: var(--tertiary-color);
+  background-color: #845aceb0;
 }
 
 .certificate-icon {
-  background-color: var(--quaternary-color);
+  background-color: #ec561bb0;
 }
 
 .icon-img {

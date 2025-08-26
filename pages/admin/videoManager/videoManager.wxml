@@ -22,16 +22,15 @@
   <view class="video-list">
     <block wx:if="{{videoList.length > 0}}">
       <view class="video-item" wx:for="{{videoList}}" wx:key="id">
-        <view class="video-cover" bindtap="toEditVideo" data-id="{{item.id}}">
+        <view class="video-cover">
           <image src="{{item.cover}}" mode="aspectFill"></image>
           <text class="video-duration">{{item.duration}}</text>
         </view>
         <view class="video-info">
-          <text class="video-title" bindtap="toEditVideo" data-id="{{item.id}}">{{item.title}}</text>
+          <text class="video-title">{{item.title}}</text>
           <text class="video-view-count">观看次数: {{item.viewCount}}</text>
         </view>
         <view class="video-actions">
-          <button bindtap="toEditVideo" data-id="{{item.id}}" class="edit-btn">编辑</button>
           <button bindtap="deleteVideo" data-id="{{item.id}}" class="delete-btn">删除</button>
         </view>
       </view>

@@ -1,32 +1,50 @@
 <!-- pages/examResult/examResult.wxml -->
 <view class="container">
   <view class="result-container">
-    <view class="result-score">{{score}}分</view>
-    <view class="result-text">{{isPerfect ? '恭喜您获得满分！' : '再接再厉，继续加油！'}}</view>
-
-    <!-- 满分奖状 -->
-    <view class="certificate-container" wx:if="{{isPerfect}}">
-      <view class="certificate-title">荣誉证书</view>
-      <view class="certificate-content">兹授予</view>
-      <view class="certificate-name">{{userInfo.name}}</view>
-      <view class="certificate-content">在航海知识测试中表现优异，获得满分</view>
-      <view class="certificate-date">日期: {{currentDate}}</view>
-
-      <image class="certificate-image" src="{{certificateUrl}}" mode="aspectFit" wx:if="{{certificateUrl}}"></image>
-      <view class="loading" wx:else>
-        <text>奖状生成中...</text>
-      </view>
+    <!-- 未完成考试 -->
+    <view class="not-taken" wx:if="{{!hasTakenExam}}">
+      <view class="not-taken-icon">📝</view>
+      <view class="not-taken-title">还未进行考试</view>
+      <view class="not-taken-desc">请先完成答题挑战，系统会自动为您评分并展示结果</view>
     </view>
 
-    <!-- 错题解析区域 -->
-    <view class="exam-container" wx:if="{{!isPerfect}}">
-      <view class="title" style="margin-top: 0;">错题解析</view>
-      <view class="tips">本题库为模拟数据，实际应用中会显示错题及解析</view>
+    <!-- 评分中 -->
+    <view class="scoring" wx:if="{{hasTakenExam && isScoring}}">
+      <view class="scoring-icon">⏳</view>
+      <view class="scoring-title">评分中</view>
+      <view class="scoring-desc">系统正在为您的答题结果进行评分，请稍候...</view>
+    </view>
+
+    <!-- 考试结果 -->
+    <view class="exam-result" wx:if="{{hasTakenExam && !isScoring}}">
+      <view class="result-score">{{score}}分</view>
+      <view class="result-text">{{isPerfect ? '恭喜您获得满分！' : '再接再厉，继续加油！'}}</view>
+
+      <!-- 满分奖状 -->
+      <view class="certificate-container" wx:if="{{isPerfect}}">
+        <view class="certificate-title">荣誉证书</view>
+        <view class="certificate-content">兹授予</view>
+        <view class="certificate-name">{{userInfo.name || '用户'}}</view>
+        <view class="certificate-content">在航海知识测试中表现优异，获得满分</view>
+        <view class="certificate-date">日期: {{currentDate}}</view>
+
+        <image class="certificate-image" src="{{certificateUrl}}" mode="aspectFit" wx:if="{{certificateUrl}}"></image>
+        <view class="loading" wx:else>
+          <text>奖状生成中...</text>
+        </view>
+      </view>
+
+      <!-- 错题解析区域 -->
+      <view class="exam-container" wx:if="{{!isPerfect}}">
+        <view class="title" style="margin-top: 0;">错题解析</view>
+        <view class="tips">本题库为模拟数据，实际应用中会显示错题及解析</view>
+      </view>
     </view>
 
     <view class="action-buttons" style="display: flex; flex-direction: column; gap: 20rpx; margin-top: 40rpx; width: 100%;">
       <button class="btn-primary" bindtap="goToLearning">返回学习中心</button>
-      <button class="btn-primary" bindtap="saveCertificate" wx:if="{{isPerfect && certificateUrl}}">保存奖状到相册</button>
+      <button class="btn-primary" bindtap="retryExam" wx:if="{{!hasTakenExam}}">去参加考试</button>
+      <button class="btn-primary" bindtap="saveCertificate" wx:if="{{hasTakenExam && !isScoring && isPerfect && certificateUrl}}">保存奖状到相册</button>
     </view>
   </view>
 </view>
