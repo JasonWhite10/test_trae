@@ -7,17 +7,13 @@ Page({
   data: {
     videoId: '',
     videoInfo: null,
-    currentTime: 0,
-    duration: 0,
-    progress: 0,
     isPlaying: false,
     videoError: false,
     errorMsg: '',
     isLoading: false, // 初始设为false，getVideoInfo开始时再设为true
     isFullScreen: false,
     isLandscape: false,
-    showRetryOption: false,
-    lastSaveTime: 0 // 记录上次保存进度的时间
+    showRetryOption: false
   },
 
   onLoad: function(options) {
@@ -76,14 +72,7 @@ Page({
         return;
       }
 
-      // 检查本地存储的观看进度
-      const progressKey = `video_progress_${videoId}`;
-      const savedProgress = wx.getStorageSync(progressKey);
-      if (typeof savedProgress === 'number' && savedProgress > 0) {
-        this.setData({
-          currentTime: savedProgress
-        });
-      }
+      // 不加载本地保存的观看进度
 
       // 尝试预先验证视频源可用性
       this.verifyVideoSource(videoInfo.src).then(() => {
@@ -188,14 +177,7 @@ Page({
       
       // 检查视频信息是否存在且src有效
       if (this.data.videoInfo && this.data.videoInfo.src) {
-        // 如果有保存的进度，跳转到该位置
-        if (this.data.currentTime > 0) {
-          try {
-            this.videoContext.seek(this.data.currentTime);
-          } catch (e) {
-            console.warn('尝试跳转到指定位置时出错:', e);
-          }
-        }
+        // 不跳转到保存的进度位置
         
         // 延迟播放，确保页面完全加载
         setTimeout(() => {
@@ -232,36 +214,21 @@ Page({
 
   onTimeUpdate: function(e) {
     try {
-      const currentTime = e.detail.currentTime;
-      const duration = e.detail.duration;
-      const progress = Math.floor((currentTime / duration) * 100);
-
-      this.setData({
-        currentTime: currentTime,
-        duration: duration,
-        progress: progress
-      });
-
-      // 每隔15秒保存一次进度，避免过于频繁的存储操作
-      const now = Date.now();
-      if (now - this.data.lastSaveTime > 15000 && currentTime > 0) {
-        this.saveCurrentProgress();
+      // 仅保留必要的播放状态更新，不更新或保存进度
+      // 当视频继续播放并有进度更新时，说明缓冲已完成，隐藏加载中提示
+      if (this.data.isLoading) {
         this.setData({
-          lastSaveTime: now
+          isLoading: false
         });
       }
     } catch (error) {
-      console.error('更新视频播放进度时出错:', error);
+      console.error('视频时间更新时出错:', error);
     }
   },
 
   onEnded: function() {
-    // 视频播放结束，保存进度为100%
-    const progressKey = 'video_progress_' + this.data.videoId;
-    wx.setStorageSync(progressKey, this.data.duration);
-
+    // 视频播放结束，不保存进度
     this.setData({
-      progress: 100,
       isPlaying: false
     });
   },
@@ -378,11 +345,7 @@ Page({
   },
 
   onUnload: function() {
-    // 离开页面时保存进度
-    const progressKey = 'video_progress_' + this.data.videoId;
-    wx.setStorageSync(progressKey, this.data.currentTime);
-    
-    // 确保退出全屏和恢复竖屏
+    // 确保退出全屏和恢复竖屏，不保存进度
     if (this.data.isFullScreen) {
       this.videoContext.exitFullScreen();
     }
@@ -405,9 +368,5 @@ Page({
     this.getVideoInfo();
   },
 
-  formatTime: function(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return (minutes < 10 ? '0' + minutes : minutes) + ':' + (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds);
-  }
+
 })

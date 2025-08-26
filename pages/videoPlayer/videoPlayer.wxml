@@ -6,7 +6,6 @@
       id="myVideo"
       class="video-player"
       src="{{videoInfo.src}}"
-      bindtimeupdate="onTimeUpdate"
       bindended="onEnded"
       binderror="onError"
       bindfullscreenchange="onFullscreenChange"
@@ -16,7 +15,6 @@
       show-center-play-btn="true"
       show-fullscreen-btn="true"
       show-play-btn="true"
-      enable-progress-gesture="true"
       enable-play-gesture="true"
       controls="true"
       object-fit="contain"
@@ -45,16 +43,6 @@
     <view class="video-meta">
       <text class="video-view-count">{{videoInfo.viewCount || 0}}次观看</text>
       <text class="video-duration">{{videoInfo.duration}}</text>
-    </view>
-    <view class="video-progress-section">
-      <view class="progress-label">
-        <text>观看进度: {{progress}}%</text>
-        <text>{{formatTime(currentTime)}} / {{formatTime(duration)}}</text>
-      </view>
-      <view class="progress-bar">
-        <view class="progress-value" style="width: {{progress}}%"></view>
-        <view class="progress-thumb" style="left: {{progress}}%"></view>
-      </view>
     </view>
   </view>
 </view>
