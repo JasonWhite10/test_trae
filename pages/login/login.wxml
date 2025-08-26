@@ -2,7 +2,7 @@
 <view class="container">
   <!-- 关闭按钮 -->
   <view class="close-btn" bindtap="closeLogin">
-    <text>×</text>
+    <text>x</text>
   </view>
 
   <!-- 顶部Logo -->
